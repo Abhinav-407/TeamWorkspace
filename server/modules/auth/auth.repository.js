@@ -7,8 +7,12 @@ const findByEmail = async (email) => {
 const createUser = async (userData) => {
   return await User.create(userData);
 };
+const findById = async(userId) => {
+  return await User.findById(userId)
+}
 
 module.exports = {
   findByEmail,
-  createUser
+  createUser,
+  findById
 };

@@ -17,16 +17,11 @@
             type: String,
             required: true
         },
-        role: {
-        type: String,
-        enum: ['admin', 'member'],
-        default: 'member'
-        },
         avatar: {
             type: String,
             default: ''
         },
-        workspaces: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Workspace' }], default: [] }
+        workspaces: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Workspace' }]
 
     },{timestamps: true})
 
