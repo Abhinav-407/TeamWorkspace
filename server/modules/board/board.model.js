@@ -8,7 +8,8 @@ const columnSchema  = new mongoose.Schema({
     position:{
         type: Number,
         default: 0
-    }
+    },
+    cards: [{ type: mongoose.Schema.Types.ObjectId, ref: "Card" }]
 })
 
 const boardSchema = new mongoose.Schema({
