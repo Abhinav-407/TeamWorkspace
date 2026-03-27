@@ -10,6 +10,7 @@ const authRoutes = require('./modules/auth/auth.routes');
 const workspaceRoutes = require('./modules/workspace/workspace.routes')
 const boardRoutes = require('./modules/board/board.routes')
 const cardRoutes = require('./modules/card/card.routes')
+const chatRoutes = require('./modules/chat/chat.routes')
 
 const app = express()
 
@@ -30,12 +31,18 @@ app.use('/api/auth', authRoutes);
 app.use('/api/workspaces', workspaceRoutes)
 app.use('/api/boards', boardRoutes)
 app.use('/api/cards', cardRoutes)
+app.use('/api/chats', chatRoutes)
 
 
 io.on('connection', (socket) => {
     console.log(`user connected: ${socket.id}`) 
+
     const cardSocket = require("./modules/card/card.socket")
     cardSocket(io, socket)
+    
+    const chatSocket = require('./modules/chat/chat.socket')
+    chatSocket(io, socket)
+
     socket.on('disconnect', () => {              
         console.log(`user disconnected: ${socket.id}`)
     })

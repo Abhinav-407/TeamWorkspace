@@ -6,3 +6,4 @@ router.post('/',protect, createWorkspace)
 router.get('/:id', protect, getWorkspace)
 
 module.exports = router
+
