@@ -11,6 +11,7 @@ const workspaceRoutes = require('./modules/workspace/workspace.routes')
 const boardRoutes = require('./modules/board/board.routes')
 const cardRoutes = require('./modules/card/card.routes')
 const chatRoutes = require('./modules/chat/chat.routes')
+const analyticsRoutes = require('./modules/analytics/analytics.routes')
 
 const app = express()
 
@@ -32,7 +33,7 @@ app.use('/api/workspaces', workspaceRoutes)
 app.use('/api/boards', boardRoutes)
 app.use('/api/cards', cardRoutes)
 app.use('/api/chats', chatRoutes)
-
+app.use('/api/analytics', analyticsRoutes)
 
 io.on('connection', (socket) => {
     console.log(`user connected: ${socket.id}`) 
