@@ -1,6 +1,7 @@
 const {register, login} = require("./auth.service")
 const { validationResult } = require('express-validator');
 
+
 const registerUser = async(req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -16,6 +17,7 @@ const registerUser = async(req, res) => {
         res.status(400).json({ success: false, message: error.message })
     }
 }
+
 const loginUser = async(req, res) =>{
     try {
         const result = await login(req.body)
@@ -27,4 +29,16 @@ const loginUser = async(req, res) =>{
         res.status(400).json({success: false, message: error.message})
     }
 }
-module.exports = {registerUser, loginUser}
+
+const getMe = async(req, res) => {
+    try {
+        res.status(200).json({
+            success: true,
+            data: req.user
+        })
+    } catch (error) {
+        res.status(400).json({ success: false, message: error.message })
+    }
+}
+
+module.exports = {registerUser, loginUser, getMe}

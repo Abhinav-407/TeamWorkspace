@@ -1,13 +1,17 @@
-import { NavLink, Outlet } from 'react-router-dom'
+// src/components/Layout.jsx
+import { useState } from 'react'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard,
-  Trello,
   MessageSquare,
   Calendar,
   BarChart2,
+  LogOut,
+  ChevronUp,
+  User,
 } from 'lucide-react'
+import { useAuth } from '../hooks/useAuth'
 
-// Navigation items — path and icon for each link
 const navItems = [
   { label: 'Dashboard',  path: '/dashboard', icon: LayoutDashboard },
   { label: 'Chat',       path: '/chat',       icon: MessageSquare   },
@@ -16,6 +20,15 @@ const navItems = [
 ]
 
 export default function Layout() {
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
+
   return (
     <div className="flex h-screen bg-gray-100">
 
@@ -46,6 +59,50 @@ export default function Layout() {
             </NavLink>
           ))}
         </nav>
+
+        {/* User Menu — bottom of sidebar */}
+        <div className="px-4 py-4 border-t border-gray-700 relative">
+
+          {/* Popup Menu — shows above when clicked */}
+          {menuOpen && (
+            <div className="absolute bottom-20 left-4 right-4 bg-gray-800 rounded-md shadow-lg overflow-hidden">
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-3 px-4 py-3 w-full text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
+              >
+                <LogOut size={16} />
+                Logout
+              </button>
+            </div>
+          )}
+
+          {/* User Button */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="flex items-center gap-3 w-full px-3 py-2 rounded-md hover:bg-gray-800 transition-colors"
+          >
+            {/* Avatar Circle */}
+            <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+              {user?.name ? user.name.charAt(0).toUpperCase() : <User size={14} />}
+            </div>
+
+            {/* Name + arrow */}
+            <div className="flex-1 text-left">
+              <p className="text-sm font-medium text-white truncate">
+                {user?.name || 'User'}
+              </p>
+              <p className="text-xs text-gray-400 truncate">
+                {user?.email || ''}
+              </p>
+            </div>
+
+            <ChevronUp
+              size={16}
+              className={`text-gray-400 transition-transform ${menuOpen ? 'rotate-180' : ''}`}
+            />
+          </button>
+
+        </div>
 
       </aside>
 

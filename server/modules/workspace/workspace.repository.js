@@ -8,6 +8,10 @@ const findById = async (id) => {
     return await Workspace.findById(id)
 }
 
+const findByUser = async (userId) => {
+    return await Workspace.find({ "members.userId": userId })
+}
+
 const addMember = async (workspaceId, memberObj) => {
     return await Workspace.findByIdAndUpdate(
         workspaceId,
@@ -16,4 +20,8 @@ const addMember = async (workspaceId, memberObj) => {
     )
 }
 
-module.exports = { create, findById, addMember }
+const deleteById = async (id) => {
+    return await Workspace.findByIdAndDelete(id)
+}
+
+module.exports = { create, findById, findByUser, addMember, deleteById }

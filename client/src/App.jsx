@@ -1,8 +1,8 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
 import Layout from './components/Layout'
 
-// Pages — we'll create these later, just placeholders for now
+
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
@@ -13,9 +13,21 @@ import Analytics from './pages/Analytics'
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter
+  future={{
+    v7_startTransition: true,
+    v7_relativeSplatPath: true,
+  }}
+>
       <Routes>
-
+        <Route 
+          path="/" 
+          element={
+            localStorage.getItem('token') 
+              ? <Navigate to="/dashboard" /> 
+              : <Navigate to="/login" />
+            } 
+/>
         {/* Public Routes — anyone can visit */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
